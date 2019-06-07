@@ -11,7 +11,47 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  pathtosolution: 'PizzaWebApp'
+  pathtoproject: 'PizzaWebApp/PizzaWebapp'
+  pathtotest: 'PizzaWebApp/Test'
 
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloudConn'
+    organization: 'frozenbeans-github'
+    scannerMode: 'MSBuild'
+    projectKey: 'FrozenBeans_copyrepo'
+    projectName: 'PizzaBoxGT'
+  displayName: 'Sonar Prepare Analysis'
+
 - script: dotnet build --configuration $(buildConfiguration)
+  workingDirectory: $(pathtosolution)
   displayName: 'dotnet build $(buildConfiguration)'
+
+# BASIC TEST
+- script: dotnet test
+   --configuration $(buildConfiguration)
+   --logger trx
+   --no-build
+   --results-directory $(Build.ArtifactStagingDirectory)/test/
+    /p:CollectCoverage=true
+    /p:CoverletOutputFormat=opencover
+    /p:CoverletOutput='$(Build.ArtifactStagingDirectory)/coverage/'
+  workingDirectory: $(pathtosolution)
+  displayName: 'dotnet Test'
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '*.trx'
+    searchFolder: '$(Build.ArtifactStagingDirectory)/test'
+  displayName: 'Publish test results'
+
+
