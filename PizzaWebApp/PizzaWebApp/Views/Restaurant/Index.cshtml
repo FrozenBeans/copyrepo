@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PizzaWebApp.Models.ResLocation>
+
+@{
+    ViewData["Title"] = "Restaurant Options";
+
+}
+
+    <h1>Choose Restaurant:</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th width="256px">
+
+                @Html.DisplayNameFor(model => model.ResName)
+            </th>
+            <th width="128px">
+
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th width="128px">
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Zipcode)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td width="256px">
+                @Html.ActionLink(item.ResName,"Pizzabuilder", new {id = item.LocationId})                
+            </td>
+            <td width="128px">
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td width="128px">
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zipcode)
+            </td>
+            <td>
+                @Html.ActionLink("CheckInventory","Inventory", new { id = item.LocationId})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

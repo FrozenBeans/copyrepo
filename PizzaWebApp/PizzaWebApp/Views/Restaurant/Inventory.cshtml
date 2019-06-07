@@ -1,0 +1,55 @@
+﻿@model IEnumerable<PizzaWebApp.Models.Inventory>
+
+@{
+    ViewData["Title"] = "Inventory";
+}
+
+<h1>Inventory</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.invId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.resfId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FkIngredient)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cost_inv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stock)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.invId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.resfId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FkIngredient)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cost_inv)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.stock)
+                </td>
+            </tr>
+        }
+        <a asp-action="Index">Back to restaurant list</a>
+
+    </tbody>
+</table>
