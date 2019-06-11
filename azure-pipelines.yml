@@ -47,11 +47,12 @@ steps:
   inputs:
     pollingTimeoutSec: '300'
 
-- task: PublishTestResults@2
+#PUBLISH
+- task: DotNetCoreCLI@2
   inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '*.trx'
-    searchFolder: '$(Build.ArtifactStagingDirectory)/test'
-  displayName: 'Publish test results'
-
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+- task: PublishBuildArtifacts@1
 
